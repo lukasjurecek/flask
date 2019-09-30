@@ -1,0 +1,16 @@
+{% from "macros/fields.tmpl" import render_input_field, render_submit %}
+{% extends "shared/layout.tmpl" %}
+
+{% block title %}Vysledek vystup{% endblock %}
+
+{% block content %}
+  <h1>Uzivatel {{ uzivatel }}</h1>
+  <div class="form-group">Vysledky testu</div>
+ <table>
+    {% for radek in data %}
+        <tr><td>{{ radek.vysledek}}</td>
+
+    {% endfor %}
+    </table>
+
+{% endblock %}
