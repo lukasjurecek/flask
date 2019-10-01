@@ -116,7 +116,7 @@ def rodic():
 def dite():
     form = ValidateDite()
     form.parent_id.choices= list(db.session.query(Parent.id,Parent.prijmeni).all())
-    if form.validate_is_submitted():
+    if form.is_submitted():
         Child.create(**form.data)
         flash(message="Ulozeno",category="info")
     return render_template('public/Child.tmpl', form=form)
