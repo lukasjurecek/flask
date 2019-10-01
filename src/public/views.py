@@ -1,11 +1,11 @@
 """
 Logic for dashboard related routes
 """
-from flask import Blueprint, render_template, Flask
+from flask import Blueprint, render_template, Flask, request, flash, request_finished
 from datetime import time
-from .forms import LogUserForm, secti,masoform,vstupnitestform
+from .forms import LogUserForm, secti, masoform, vstupnitestform, ValidateParent, ValidateDite
 from ..data.database import db
-from ..data.models import LogUser
+from ..data.models import LogUser,Child, Parent
 from sqlalchemy import func
 blueprint = Blueprint('public', __name__)
 
@@ -70,12 +70,12 @@ def testvystup():
     return render_template('public/vysledekvystup.tmpl', data=dotaz)
 
 
-@blueprint.route('/vystupuzivatele/<username>', methods=['GET','POST'])
-def vystupuzivatele(username):
-    from ..data.models.vstupnitest import Vstupnitest as vysledky
-    dotaz = db.session.query(Vysledky.username, Vysledky.hodnoceni).\
-    filter(Vysledky.username==username).all()
-    return render_template('public/vysledekvystupuzivatel.tmpl', data=dotaz, uzivatel=username)
+#@blueprint.route('/vystupuzivatele/<username>', methods=['GET','POST'])
+#def vystupuzivatele(username):
+#  from ..data.models.vstupnitest import Vstupnitest as vysledky
+ #   dotaz = db.session.query(Vysledky.username, Vysledky.hodnoceni).\
+ #   filter(Vysledky.username==username).all()
+  #  return render_template('public/vysledekvystupuzivatel.tmpl', data=dotaz, uzivatel=username)
 
 @blueprint.route('/vystupjson', methods=['GET','POST'])
 def vystupjson():
@@ -103,4 +103,21 @@ def chart():
     return render_template('public/chart.tmpl', values=values, labels=labels, legend=legend)
 
 
+
+@blueprint.route('/vstup_rodic', methods=['GET','POST'])
+def rodic():
+    form = ValidateParent()
+    if form.validate_on_submit():
+        Parent.create(**form.data)
+        flash(message="Ulozeno",category="info")
+    return render_template('public/rodic.tmpl', form=form)
+
+@blueprint.route('/vstup_dite', methods=['GET','POST'])
+def dite():
+    form = ValidateDite()
+    form.parent_id.choices= list(db.session.query(Parent.id,Parent.prijmeni).all())
+    if form.validate_is_submitted():
+        Child.create(**form.data)
+        flash(message="Ulozeno",category="info")
+    return render_template('public/Child.tmpl', form=form)
 

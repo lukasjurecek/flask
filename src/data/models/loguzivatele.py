@@ -41,3 +41,5 @@ class Parent(CRUDModel):
     children = relationship("Child",backref="parent")
     prijmeni = Column(String, nullable=False, index=True)
     pohlavi = Column(Integer, default=1)
+    def find_by_prijmeni(prijmeni):
+        return db.session.query(Parent,Child)

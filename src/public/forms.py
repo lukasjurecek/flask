@@ -60,3 +60,14 @@ class vstupnitestform(Form):
         Length(min=8, max=8, message="Please use 8 characters"),
         InputRequired(message="You can't leave this empty")
     ])
+
+class ValidateParent(Form):
+    prijmeni = TextField("prijmeni", validators=[InputRequired(message="Musis mit jmeno")])
+   # pohlavi = IntegerField("pohlavi", validators=[InputRequired()])
+    pohlavi = SelectField("Pohlavi", choices=[(1, "muz"), (2, "zena"), (3, "jine")], default=3, validators=[InputRequired()])
+
+class ValidateDite(Form):
+    parent_id = SelectField(choices=[])
+    jmeno = TextField("jmeno", validators=[InputRequired(message="Musis mit jmeno")])
+
+

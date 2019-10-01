@@ -1,0 +1,16 @@
+{% from "macros/fields.tmpl" import render_input_field,render_input,render_input_choices%}
+{% extends "shared/layout.tmpl" %}
+
+{% block title %}Rodič {% endblock %}
+
+
+{% block content %}
+  <h3>Rodic</h3>
+  <form method="POST" id='insert-form'>
+    {{ form.hidden_tag() }}
+    {{ render_input_field(form.prijmeni) }}
+    {{ render_input_choices(form.parent_id) }}
+    {{ render_submit() }}
+  </form>
+{% endblock %}
+
