@@ -103,21 +103,26 @@ def chart():
     return render_template('public/chart.tmpl', values=values, labels=labels, legend=legend)
 
 
-
 @blueprint.route('/vstup_rodic', methods=['GET','POST'])
 def rodic():
+    from flask import flash
+    from ..data.models.loguzivatele import Child, Parent
     form = ValidateParent()
-    if form.validate_on_submit():
+    if form.is_submitted():
         Parent.create(**form.data)
-        flash(message="Ulozeno",category="info")
+        flash(message="Ulozeno", category= "infor")
     return render_template('public/rodic.tmpl', form=form)
 
 @blueprint.route('/vstup_dite', methods=['GET','POST'])
 def dite():
+    from flask import flash
+    from ..data.models.loguzivatele import Child, Parent
     form = ValidateDite()
-    form.parent_id.choices= list(db.session.query(Parent.id,Parent.prijmeni).all())
+    form.parent_id.choices = db.session.query(Parent.id, Parent.prijmeni).all()
     if form.is_submitted():
         Child.create(**form.data)
-        flash(message="Ulozeno",category="info")
+        flash(message="Ulozeno", category= "infor")
     return render_template('public/Child.tmpl', form=form)
+
+
 

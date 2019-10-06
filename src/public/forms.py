@@ -62,12 +62,10 @@ class vstupnitestform(Form):
     ])
 
 class ValidateParent(Form):
-    prijmeni = TextField("prijmeni", validators=[InputRequired(message="Musis mit jmeno")])
-   # pohlavi = IntegerField("pohlavi", validators=[InputRequired()])
-    pohlavi = SelectField("Pohlavi", choices=[(1, "muz"), (2, "zena"), (3, "jine")], default=3, validators=[InputRequired()])
+    prijmeni = TextField("prijmeni", validators=[InputRequired(message="vyzadovano")])
+    #pohlavi = IntegerField("pohlavi", validators=[InputRequired])
+    pohlavi = SelectField("pohlavi", choices=[(1, "muz"), (2, "zena")], validators=[InputRequired])
 
 class ValidateDite(Form):
     parent_id = SelectField(choices=[])
-    jmeno = TextField("jmeno", validators=[InputRequired(message="Musis mit jmeno")])
-
-
+    jmeno = TextField("jmeno", validators=[InputRequired(message="vyzadovano")])
